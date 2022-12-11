@@ -1,6 +1,4 @@
-import { useQuery, gql } from '@apollo/client';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { useQuery, gql,home } from '@apollo/client';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import {
@@ -10,7 +8,6 @@ import {
   Container,
   NavigationMenu,
   Hero,
-  FrontPage,
   SEO,
 } from '../components';
 
@@ -23,7 +20,7 @@ export default function Component() {
     data?.generalSettings;
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
-  
+  console.log(data)
 
   return (
     <>
@@ -35,16 +32,11 @@ export default function Component() {
       />
       <Main>
         <Container>
-          
-          
-
-          
-          
-            
-          
+          <Hero title={'Front Page'} />
+          <div className="text-center">
+          </div>
         </Container>
       </Main>
-      <FrontPage />
       <Footer title={siteTitle} menuItems={footerMenu} />
     </>
   );
@@ -57,10 +49,6 @@ Component.query = gql`
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
   ) {
-    pageBy(pageId: 15524) {
-      id
-      content(format: RENDERED)
-    }
     generalSettings {
       ...BlogInfoFragment
     }
@@ -77,6 +65,14 @@ Component.query = gql`
   }
 `;
 
+Component.query = home`
+query NewQuery {
+    pageBy(pageId: 15524) {
+      id
+      content(format: RENDERED)
+    }
+  }
+`;
 
 Component.variables = () => {
   return {
